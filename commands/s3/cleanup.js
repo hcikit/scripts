@@ -35,7 +35,6 @@ exports.handler = async ({ region }) => {
   // TODO: Read the region from the deploy script maybe?
 
   await getAWSCredentials();
-  console.log("region");
   AWS.config.update({ region });
 
   const s3 = new AWS.S3();
@@ -50,6 +49,24 @@ exports.handler = async ({ region }) => {
 
   console.log("Cleanup complete.");
 };
+
+async function emptyBucket(Bucket, s3) {
+  let objects = [];
+  let lastRequest;
+  do {
+    lastRequest = await s3.listObjects({ Bucket }).promise();
+    objects = [...objects, ...lastRequest.Contents];
+  } while (lastRequest.isTruncated);
+
+  return Promise.all(
+    _.chunk(objects, 999).map((o) => {
+      s3.deleteObjects({
+        Bucket,
+        Delete: { Objects: o.map(({ Key }) => ({ Key })) },
+      }).promise();
+    })
+  );
+}
 
 // //TODO: this should use the node API so there isn't a dependency of a CLI application
 async function deleteScripts() {
@@ -81,6 +98,9 @@ async function deleteUploads(appName, s3, cognito, iam) {
 
   if (answer.confirm) {
     try {
+      await emptyBucket(appName, s3);
+      console.log(chalk.green(`Emptied bucket ${appName}.`));
+
       await s3.deleteBucket({ Bucket: appName }).promise();
       console.log(chalk.green(`Deleted bucket ${appName}.`));
     } catch (e) {
@@ -152,6 +172,9 @@ async function deleteWebsite(appName, s3) {
 
   if (answer.confirm) {
     try {
+      await emptyBucket(appName, s3);
+      console.log(chalk.green(`Emptied bucket ${appName}.`));
+
       await s3.deleteBucket({ Bucket: appName }).promise();
       console.log(chalk.green("Website bucket deleted"));
     } catch (e) {

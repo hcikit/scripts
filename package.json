@@ -1,18 +1,21 @@
 {
   "name": "@hcikit/scripts",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.2",
   "description": "A set of useful scripts for building HCI Kit experiments",
   "main": "index.js",
-  "bin": "index.js",
   "repository": "github.com/hcikit/scripts",
   "author": "Blaine Lewis",
   "license": "MIT",
+  "bin": {
+    "hcikit-scripts": "./index.js"
+  },
   "dependencies": {
     "aws-sdk": "^2.661.0",
     "chalk": "^4.0.0",
     "cross-spawn": "^7.0.2",
     "fs-extra": "^9.0.0",
     "inquirer": "^7.1.0",
+    "lodash": "^4.17.15",
     "yargs": "^15.3.1"
   },
   "scripts": {

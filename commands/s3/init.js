@@ -53,11 +53,9 @@ exports.handler = async ({ region }) => {
   console.log(
     `You still need to register the upload component and add it into your configuration to start logging.
   
-        ${chalk.yellow(`
-  import S3Upload from "./S3Upload";
-  
-  registerTask("S3Upload", S3Upload);`)}
-  `
+        ${chalk.yellow(`import S3Upload from "./S3Upload";`)}
+
+Then register by passing it to your experiment in the tasks object.`
   );
 
   console.log(`Add it to your config like:
@@ -76,7 +74,7 @@ exports.handler = async ({ region }) => {
 
   console.log(
     `Your experiment will be accessible from ${chalk.green(
-      `https://${appName}.s3-website-${s3.config.region}.amazonaws.com/`
+      `http://${appName}.s3-website.${s3.config.region}.amazonaws.com/`
     )}.`
   );
 
