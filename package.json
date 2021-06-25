@@ -7,7 +7,7 @@
   "author": "Blaine Lewis",
   "license": "MIT",
   "bin": {
-    "hcikit-scripts": "./index.js"
+    "hcikit": "dist/index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.661.0",
@@ -19,8 +19,17 @@
     "yargs": "^15.3.1"
   },
   "scripts": {
+    "start": "tsc",
+    "build": "tsc --build",
+    "dev": "ts-node src/index.ts",
     "deploy": "aws s3 sync build/ s3://@hcikit/scripts",
     "predeploy": "npm run build",
     "sync-data": "aws s3 sync data/ s3://@hcikit/scripts-uploads"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.4",
+    "@types/yargs": "^17.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
   }
 }
