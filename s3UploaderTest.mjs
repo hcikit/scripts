@@ -1,10 +1,16 @@
 import AWS from "aws-sdk";
 
+// let AWS_REGION = "us-east-2";
+// let AWS_S3_BUCKET = "test-uploadsbucket-4mavv8w03d0b";
+// // "arn:aws:s3:::test-uploadsbucket-4mavv8w03d0b";
+// let AWS_COGNITO_IDENTITY_POOL_ID =
+//   "us-east-2:9d8e144e-bb1f-4306-96ad-0cdb11ea893e";
+
 let AWS_REGION = "us-east-2";
-let AWS_S3_BUCKET = "test-uploadsbucket-4mavv8w03d0b";
+let AWS_S3_BUCKET = "this-is-my-test-everything-uploads";
 // "arn:aws:s3:::test-uploadsbucket-4mavv8w03d0b";
 let AWS_COGNITO_IDENTITY_POOL_ID =
-  "us-east-2:9d8e144e-bb1f-4306-96ad-0cdb11ea893e";
+  "us-east-2:5e80691b-d5f2-4194-8a1a-588efd707c34";
 
 AWS.config.region = AWS_REGION;
 
