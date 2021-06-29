@@ -1,15 +1,14 @@
-
-import path from "path"
-import fs from "fs"
+import path from "path";
+import fs from "fs";
 
 const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = (relativePath : string) => path.resolve(appDirectory, relativePath);
 
-const resolveOwn = (relativePath : string) => path.resolve(__dirname, relativePath);
+const resolveApp = (relativePath: string) =>
+  path.resolve(appDirectory, relativePath);
 
-module.exports = {
-  appPath: resolveApp("."),
+const resolveOwn = (relativePath: string) =>
+  path.resolve(__dirname, relativePath);
 
-  appPackageJson: resolveApp("package.json"),
-  ownPath: resolveOwn("."),
-};
+export let appPath = resolveApp(".");
+export let appPackageJson = resolveApp("package.json");
+export let ownPath = resolveOwn(".");
