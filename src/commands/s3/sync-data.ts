@@ -18,7 +18,8 @@ exports.handler = async () => {
   let dir = path.join(appPath, "data");
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
-    await sync.bucketWithLocal(process.env.AWS_UPLOADS_BUCKET, dir);
   }
+
+  await sync.bucketWithLocal(process.env.AWS_UPLOADS_BUCKET, dir);
   // aws s3 sync /path/to/local/dir s3://mybucket2
 };

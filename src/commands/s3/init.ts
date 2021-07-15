@@ -93,12 +93,14 @@ exports.handler = async ({ region }: { region?: string }) => {
     OutputKey: "WebsiteBucket",
   })?.OutputValue;
 
-  fs.writeFileSync(
+  fs.appendFileSync(
     path.join(appPath, ".env"),
-    `AWS_REGION=${region}
-  AWS_COGNITO_POOL_ID=${cognitoPoolId}
-  AWS_WEBSITE_BUCKET=${websiteBucket}
-  AWS_UPLOADS_BUCKET=${uploadsBucket}`
+    `
+AWS_REGION=${region}
+AWS_COGNITO_POOL_ID=${cognitoPoolId}
+AWS_WEBSITE_BUCKET=${websiteBucket}
+AWS_UPLOADS_BUCKET=${uploadsBucket}
+AWS_WEBSITE_URL=${websiteUrl}`
   );
 
   console.log(`S3 Setup Complete!`);
@@ -144,9 +146,9 @@ exports.handler = async ({ region }: { region?: string }) => {
 
   // TODO: Explaining how to setup credentials is tricky, it would be nice if there was a better way.
   appPackage.scripts = appPackage.scripts || {};
-  appPackage.scripts.deploy = `hcikit s3-sync-website`;
+  appPackage.scripts.deploy = `@hcikit/scripts s3-sync-website`;
   appPackage.scripts.predeploy = "npm run build";
-  appPackage.scripts["sync-data"] = `hcikit s3-sync-data`;
+  appPackage.scripts["sync-data"] = `@hcikit/scripts s3-sync-data`;
 
   fs.writeFileSync(
     path.join(appPath, "package.json"),

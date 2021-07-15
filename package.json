@@ -1,14 +1,12 @@
 {
   "name": "@hcikit/scripts",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "A set of useful scripts for building HCI Kit experiments",
   "main": "index.js",
   "repository": "github.com/hcikit/scripts",
   "author": "Blaine Lewis",
   "license": "MIT",
-  "bin": {
-    "hcikit": "dist/index.js"
-  },
+  "bin": "dist/index.js",
   "dependencies": {
     "@aws-sdk/client-cloudformation": "^3.19.0",
     "@types/lodash": "^4.14.170",
@@ -26,9 +24,7 @@
     "postbuild": "cp ./src/CreateBucket.yml ./dist/.",
     "build": "tsc --build",
     "dev": "ts-node src/index.ts",
-    "deploy": "aws s3 sync build/ s3://@hcikit/scripts",
-    "predeploy": "npm run build",
-    "sync-data": "aws s3 sync data/ s3://@hcikit/scripts-uploads"
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
