@@ -8,6 +8,9 @@ Resources:
     Type: AWS::S3::Bucket
     # DeletionPolicy: Retain
     Properties:
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
       CorsConfiguration:
         CorsRules:
           - AllowedOrigins: 
@@ -69,7 +72,9 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
     Properties:
-
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -112,7 +117,7 @@ Outputs:
       - WebsiteBucket
       - WebsiteURL
     Description: URL for website hosted on S3
-  
+
   WebsiteBucketSecureURL:
     Value: !Join 
       - ''

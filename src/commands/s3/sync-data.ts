@@ -5,8 +5,6 @@ import fs from "fs-extra";
 import { appPath } from "../../paths";
 import path from "path";
 
-// TODO: need to test this
-
 export let command = "s3-sync-data";
 
 export let describe =
@@ -20,6 +18,6 @@ exports.handler = async () => {
     fs.mkdirSync(dir);
   }
 
-  await sync.bucketWithLocal(process.env.AWS_UPLOADS_BUCKET, dir);
+  await sync.bucketWithLocal(process.env.REACT_APP_AWS_UPLOADS_BUCKET, dir);
   // aws s3 sync /path/to/local/dir s3://mybucket2
 };

@@ -17,9 +17,6 @@ import spawn from "cross-spawn";
 
 import { appPackageJson, appPath, ownPath } from "../../paths";
 
-// TODO: need to test this
-// TODO: upload the CRA template, upload the scripts and upload the react version of hci kit
-
 function PromiseTimeout(delayms: number) {
   return new Promise(function (resolve, reject) {
     setTimeout(resolve, delayms);
@@ -70,6 +67,7 @@ exports.handler = async ({ region }: { region?: string }) => {
       return;
     }
 
+    // TODO: if the commit failed (in case the stack is in a mistaken state, then this all just keeps waiting. This should instead try to get the stackstatus.)
     await PromiseTimeout(delay);
     console.log("...");
     let variables = await client.send(describeCommand);
@@ -84,7 +82,7 @@ exports.handler = async ({ region }: { region?: string }) => {
     OutputKey: "CognitoId",
   })?.OutputValue;
   let websiteUrl = find(stack?.Outputs, {
-    OutputKey: "WebsiteBucketSecureURL",
+    OutputKey: "WebsiteURL",
   })?.OutputValue;
   let uploadsBucket = find(stack?.Outputs, {
     OutputKey: "UploadsId",
@@ -96,11 +94,11 @@ exports.handler = async ({ region }: { region?: string }) => {
   fs.appendFileSync(
     path.join(appPath, ".env"),
     `
-AWS_REGION=${region}
-AWS_COGNITO_POOL_ID=${cognitoPoolId}
-AWS_WEBSITE_BUCKET=${websiteBucket}
-AWS_UPLOADS_BUCKET=${uploadsBucket}
-AWS_WEBSITE_URL=${websiteUrl}`
+REACT_APP_AWS_REGION=${region}
+REACT_APP_AWS_COGNITO_POOL_ID=${cognitoPoolId}
+REACT_APP_AWS_WEBSITE_BUCKET=${websiteBucket}
+REACT_APP_AWS_UPLOADS_BUCKET=${uploadsBucket}
+REACT_APP_AWS_WEBSITE_URL=${websiteUrl}`
   );
 
   console.log(`S3 Setup Complete!`);
@@ -154,6 +152,7 @@ AWS_WEBSITE_URL=${websiteUrl}`
     path.join(appPath, "package.json"),
     JSON.stringify(appPackage, null, 2) + os.EOL
   );
+
   // TODO: Could use environment variables...
   fs.writeFileSync(
     path.join(appPath, "src", "S3Upload.js"),

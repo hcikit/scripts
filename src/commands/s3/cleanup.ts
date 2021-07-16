@@ -7,8 +7,6 @@ import {
 
 import { appPackageJson } from "../../paths";
 
-// TODO: need to test this
-
 export let command = "s3-cleanup";
 
 export let builder = {
@@ -33,4 +31,5 @@ exports.handler = async ({ region }: { region?: string }) => {
 
   let output = await client.send(createCommand);
   console.log(output);
+  // TODO: this doesn't mean it actually suceeded...
 };
