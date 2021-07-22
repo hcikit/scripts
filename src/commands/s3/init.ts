@@ -143,10 +143,12 @@ REACT_APP_AWS_WEBSITE_URL=${websiteUrl}`
   );
 
   // TODO: Explaining how to setup credentials is tricky, it would be nice if there was a better way.
+  const commandName = "hcikit";
+
   appPackage.scripts = appPackage.scripts || {};
-  appPackage.scripts.deploy = `@hcikit/scripts s3-sync-website`;
+  appPackage.scripts.deploy = `${commandName} s3-sync-website`;
   appPackage.scripts.predeploy = "npm run build";
-  appPackage.scripts["sync-data"] = `@hcikit/scripts s3-sync-data`;
+  appPackage.scripts["sync-data"] = `${commandName} s3-sync-data`;
 
   fs.writeFileSync(
     path.join(appPath, "package.json"),
